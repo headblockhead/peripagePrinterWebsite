@@ -3,6 +3,7 @@ import RPi.GPIO as GPIO
 import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from snap import take_snap
+from text import print_text
 from setup import start
 
 host_name = '0.0.0.0'    # Change this to your Raspberry Pi IP address
@@ -32,6 +33,7 @@ class MyServer(BaseHTTPRequestHandler):
             <body style="width:960px; margin: 20px auto;">
             <h1>Welcome to my raspberry pi!</h1>
             <p>Take snap? <a href="/snap">Snap</a></p>
+            <p>Print Text? <a href="/print/testText">Print</a></p>
             <div id="led-status"></div>
             <script>
                 document.getElementById("led-status").innerHTML="{}";
@@ -44,6 +46,8 @@ class MyServer(BaseHTTPRequestHandler):
              print("home")
         elif self.path=='/snap':
              take_snap()
+        elif 'print' in self.path:
+            text(self.path[6:])
         self.wfile.write(html.format('', '').encode("utf-8"))
 if __name__ == '__main__':
     http_server = HTTPServer((host_name, host_port), MyServer)
