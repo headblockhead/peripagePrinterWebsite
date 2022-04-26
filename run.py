@@ -8,6 +8,7 @@ from setup import start
 
 host_name = '0.0.0.0'    # Change this to your Raspberry Pi IP address
 host_port = 8000
+mac = "35:53:19:07:1D:BC"
 
 start() 
 
@@ -45,15 +46,21 @@ class MyServer(BaseHTTPRequestHandler):
         if self.path=='/':
              print("home")
         elif self.path=='/snap':
-             take_snap()
+             ret, image = cam.read()
+             cv2.imwrite('./cam.png', image)
+             printer.printLn("Time: " + str(datetime.datetime.now()))
+             printer.printImage("cam.png")
         elif 'print' in self.path:
-            text(self.path[6:])
+            print_text(self.path[7:])
         self.wfile.write(html.format('', '').encode("utf-8"))
 if __name__ == '__main__':
     http_server = HTTPServer((host_name, host_port), MyServer)
     print("Server Starts - %s:%s" % (host_name, host_port))
-
+    printer.connect(mac)
     try:
         http_server.serve_forever()
     except KeyboardInterrupt:
         http_server.server_close()
+        printer.printStop()
+        cam.release()
+        printer.disconnect()
