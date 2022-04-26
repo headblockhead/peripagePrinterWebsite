@@ -47,7 +47,7 @@ class MyServer(BaseHTTPRequestHandler):
         elif self.path=='/snap':
              take_snap()
         elif 'print' in self.path:
-            text(self.path[6:])
+            print_text(self.path[7:])
         self.wfile.write(html.format('', '').encode("utf-8"))
 if __name__ == '__main__':
     http_server = HTTPServer((host_name, host_port), MyServer)

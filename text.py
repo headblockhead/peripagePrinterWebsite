@@ -7,7 +7,7 @@ import datetime
 import ppa6ctl as printer
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
-def text(Toprint):
+def print_text(Toprint):
     #mac = printer.search()
     mac = "35:53:19:07:1D:BC"
 
