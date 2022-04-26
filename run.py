@@ -4,7 +4,6 @@ import ppa6ctl as printer
 import RPi.GPIO as GPIO
 import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from text import print_text
 
 host_name = '0.0.0.0'    # Change this to your Raspberry Pi IP address
 host_port = 8000
@@ -49,7 +48,7 @@ class MyServer(BaseHTTPRequestHandler):
              printer.printLn("Time: " + str(datetime.datetime.now()))
              printer.printImage("cam.png")
         elif 'print' in self.path:
-            print_text(self.path[7:])
+            printer.printLn(self.path[7:])
         self.wfile.write(html.format('', '').encode("utf-8"))
 if __name__ == '__main__':
     http_server = HTTPServer((host_name, host_port), MyServer)
