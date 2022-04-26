@@ -2,15 +2,11 @@
 import RPi.GPIO as GPIO
 import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from snap import take_snap
 from text import print_text
-from setup import start
 
 host_name = '0.0.0.0'    # Change this to your Raspberry Pi IP address
 host_port = 8000
 mac = "35:53:19:07:1D:BC"
-
-start() 
 
 class MyServer(BaseHTTPRequestHandler):
     """ A special implementation of BaseHTTPRequestHander for reading data from
@@ -56,7 +52,9 @@ class MyServer(BaseHTTPRequestHandler):
 if __name__ == '__main__':
     http_server = HTTPServer((host_name, host_port), MyServer)
     print("Server Starts - %s:%s" % (host_name, host_port))
+    cam = cv2.VideoCapture(0)
     printer.connect(mac)
+    printer.printStart()
     try:
         http_server.serve_forever()
     except KeyboardInterrupt:
