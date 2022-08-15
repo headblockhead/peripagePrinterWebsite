@@ -1,2 +1,2 @@
 # peripagePrinterWebsite
-A very basic python web page to control a PeriPage receipt printer
+A very basic python web server to control a PeriPage receipt printer
